@@ -1,0 +1,33 @@
+model:
+    name: "TinyLlama/TinyLlama-1.1B-Chat-v1.0"
+  
+lora:
+    r: 8
+    alpha: 16
+    target_modules: ["q_proj", "v_proj"]
+    dropout: 0.05
+    task_type: "CAUSAL_LM"
+
+training:
+    output_dir: "results"
+    num_train_epochs: 3
+    max_step: 20
+    per_device_train_batch_size: 4
+    per_device_eval_batch_size: 4
+    learning_rate: 2.0e-4
+    warmup_steps: 100
+    weight_decay: 0.01
+    logging_steps: 50
+    eval_strategy: "epoch"
+    save_strategy: "epoch"
+    load_best_model_at_end: true
+
+data:
+    dataset_name: "qiaojin/PubMedQA"
+    max_length: 512
+    test_size: 0.1
+    seed: 42
+  
+mlflow:
+    experiment_name: "medical-finetune"
+    run_name: "tinyllama-lora"
