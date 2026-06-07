@@ -21,7 +21,13 @@ def main():
     setup_logging()
     cfg = load_config()
 
-    device = "mps" if torch.backends.mps.is_available() else "cpu"
+    if torch.cuda.is_available():
+        device = "cuda"
+    elif torch.backends.mps.is_available():
+        device = "mps"
+    else:
+        device = "cpu"
+
     logger.info(f"Using device: {device}")
 
     model, tokenizer = load_model_and_tokenizer(
@@ -51,7 +57,6 @@ def main():
         training_args = TrainingArguments(
               output_dir=cfg["training"]["output_dir"],
               num_train_epochs=cfg["training"]["num_train_epochs"],
-              max_steps=cfg['training']['max_step'],
               per_device_train_batch_size=cfg["training"]["per_device_train_batch_size"],
               per_device_eval_batch_size=cfg["training"]["per_device_eval_batch_size"],
               learning_rate=cfg["training"]["learning_rate"],
@@ -61,6 +66,7 @@ def main():
               eval_strategy=cfg["training"]["eval_strategy"],
               save_strategy=cfg["training"]["save_strategy"],
               load_best_model_at_end=cfg["training"]["load_best_model_at_end"],
+              fp16=device == "cuda",
               report_to="mlflow",
           )
         

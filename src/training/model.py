@@ -14,9 +14,11 @@ def load_model_and_tokenizer(model_name: str, lora_cfg: dict, device: str):
         logger.info("pad_token set to eos_token")
 
     logger.info(f"Loading model: {model_name}")
+
+    dtype = torch.float16 if device == "cuda" else torch.float32
     model = AutoModelForCausalLM.from_pretrained(
         model_name,
-        torch_dtype=torch.float32
+        torch_dtype=dtype
     )
 
     lora_config = LoraConfig(
