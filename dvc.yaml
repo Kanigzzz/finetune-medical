@@ -1,0 +1,31 @@
+stages:
+  preprare:
+  cmd: python -m src.data.prepare
+  deps:
+    - src/data/prepare.py
+    - configs/train_config.yaml
+  params:
+  - params.yaml:
+    - data
+    - model
+  
+  outs:
+    - data/processed
+
+
+  train:
+    cmd: python -m src.train.train
+    deps:
+      - src/training/train.py
+      - src/training/model.py
+      - data/processed
+      - configs/train_config.yaml
+
+    params:
+    - params.yaml:
+      - model
+      - lora
+      - training
+
+    outs:
+      - results

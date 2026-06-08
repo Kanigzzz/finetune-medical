@@ -1,9 +1,12 @@
 import torch
 from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 from pydantic import BaseModel
 from src.inference.inference import load_config, load_model_for_inference, ask
 
 app = FastAPI(title="Medical QA API")
+app.mount("/static", StaticFiles(directory="api/static"), name="static")
 
 if torch.cuda.is_available():
     device = "cuda"
@@ -26,6 +29,11 @@ class Answer(BaseModel):
     question: str
     answer: str
     device: str
+
+@app.get("/")
+def index():
+    return FileResponse("api/static/index.html")
+
 
 @app.get("/health")
 def health():
