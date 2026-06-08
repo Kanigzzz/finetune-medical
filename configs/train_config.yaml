@@ -1,5 +1,5 @@
 model:
-    name: "TinyLlama/TinyLlama-1.1B-Chat-v1.0"
+    name: "mistralai/Mistral-7B-Instruct-v0.3"
   
 lora:
     r: 8
@@ -29,4 +29,4 @@ data:
   
 mlflow:
     experiment_name: "medical-finetune"
-    run_name: "tinyllama-lora"
+    run_name: "mistral-lora"
