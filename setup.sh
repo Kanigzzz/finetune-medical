@@ -24,6 +24,6 @@ echo "==> Starting training..."
 python -m src.training.train
 
 echo "==> Uploading mlruns to HuggingFace..."
-  hf upload Kamil123456789/tinyllama-medical mlruns mlruns
+  hf upload Kamil123456789/qwen2.5-medical mlruns mlruns
 
 echo "==> Done!"
