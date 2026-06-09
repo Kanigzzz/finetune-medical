@@ -23,7 +23,7 @@ python -m src.data.prepare
 echo "==> Starting training..."
 python -m src.training.train
 
-echo "==> Uploading mlruns to HuggingFace..."
-  hf upload Kamil123456789/qwen2.5-medical mlruns mlruns
+echo "==> Uploading mlflow.db to HuggingFace..."
+hf upload Kamil123456789/qwen2.5-medical mlflow.db mlflow.db
 
 echo "==> Done!"

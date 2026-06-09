@@ -38,8 +38,12 @@ def main():
 
     dataset = load_from_disk('data/processed')
 
-    os.environ["MLFLOW_EXPERIMENT_NAME"] = cfg["mlflow"]["experiment_name"]
-    mlflow.set_experiment(cfg['mlflow']['experiment_name'])
+    abs_db_path = os.path.abspath("mlflow.db")
+    mlflow.set_tracking_uri(f"sqlite:///{abs_db_path}")
+
+    experiment_name = cfg["mlflow"]["experiment_name"]
+    os.environ["MLFLOW_EXPERIMENT_NAME"] = experiment_name
+    mlflow.set_experiment(experiment_name)
 
     with mlflow.start_run(run_name=cfg['mlflow']['run_name']):
         mlflow.log_params({
